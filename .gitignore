@@ -1,0 +1,49 @@
+# ── Python ────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ── Virtual Environment ──────────────────────
+venv/
+env/
+.venv/
+.env/
+
+# ── Jupyter Notebooks ────────────────────────
+.ipynb_checkpoints/
+
+# ── IDE ───────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── OS ────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Data (large files — do not commit) ───────
+data/raw/
+data/processed/
+
+# ── Model Weights (large files) ──────────────
+models/checkpoints/*.pt
+models/checkpoints/*.pth
+models/checkpoints/*.h5
+
+# ── MLflow Tracking ──────────────────────────
+mlruns/
+
+# ── Kaggle Credentials ──────────────────────
+kaggle.json
+
+# ── Misc ─────────────────────────────────────
+*.log
+*.tmp

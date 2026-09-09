@@ -1,0 +1,46 @@
+# MediScan — Medical Image Classification System
+# Python 3.11+ required
+
+# ── Core Data ──────────────────────────────────
+numpy
+pandas
+
+# ── PyTorch ────────────────────────────────────
+torch
+torchvision
+
+# ── Image Processing ──────────────────────────
+Pillow
+opencv-python
+
+# ── Augmentation ──────────────────────────────
+albumentations
+
+# ── Visualization ─────────────────────────────
+matplotlib
+seaborn
+
+# ── Evaluation ────────────────────────────────
+scikit-learn
+
+# ── Explainability ────────────────────────────
+grad-cam
+
+# ── Web Application ──────────────────────────
+streamlit
+
+# ── Experiment Tracking ──────────────────────
+mlflow
+
+# ── DICOM Support ────────────────────────────
+pydicom
+
+# ── Configuration ────────────────────────────
+pyyaml
+
+# ── Utilities ────────────────────────────────
+tqdm
+
+# ── Dataset Download ─────────────────────────
+opendatasets
+kaggle

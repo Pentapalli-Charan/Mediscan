@@ -1,0 +1,107 @@
+# ═══════════════════════════════════════════════════════════════
+# MediScan — Centralized Configuration
+# ═══════════════════════════════════════════════════════════════
+
+# ── Project ───────────────────────────────────────────────────
+project:
+  name: "MediScan"
+  description: "Medical Image Classification System"
+  version: "0.1.0"
+
+# ── Reproducibility ──────────────────────────────────────────
+seed: 42
+
+# ── Dataset ──────────────────────────────────────────────────
+dataset:
+  name: "HAM10000"
+  source: "kaggle"
+  kaggle_id: "kmader/skin-cancer-mnist-ham10000"
+
+# ── Paths (relative to project root) ────────────────────────
+paths:
+  data_raw: "data/raw"
+  data_processed: "data/processed"
+  data_metadata: "data/metadata"
+  models: "models/checkpoints"
+  reports: "reports"
+  figures: "reports/figures"
+  gradcam_examples: "reports/gradcam_examples"
+  mlruns: "mlruns"
+
+# ── Image Settings ───────────────────────────────────────────
+image:
+  size: 224
+  channels: 3
+  # ImageNet normalization (standard for ImageNet-pretrained models)
+  normalize_mean: [0.485, 0.456, 0.406]
+  normalize_std: [0.229, 0.224, 0.225]
+
+# ── Data Split ───────────────────────────────────────────────
+split:
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+  # Split by lesion_id to prevent data leakage
+  group_column: "lesion_id"
+  stratify_column: "dx"
+
+# ── Class Labels (verified from dataset in Day 1 EDA) ───────
+# Will be confirmed after dataset inspection
+classes:
+  labels: [akiec, bcc, bkl, df, mel, nv, vasc]
+  num_classes: 7
+
+# ── Training (Day 6+ — defaults, not yet tested) ────────────
+training:
+  batch_size: 32
+  num_workers: 4
+  # Phase 1: Frozen backbone
+  phase1:
+    epochs: 5
+    learning_rate: 1.0e-3
+    freeze_backbone: true
+  # Phase 2: Partial unfreezing
+  phase2:
+    epochs: 5
+    learning_rate: 1.0e-4
+    freeze_backbone: false
+    unfreeze_from: "last_2_blocks"
+  # Phase 3: Full fine-tuning
+  phase3:
+    epochs: 5
+    learning_rate: 1.0e-5
+    freeze_backbone: false
+    unfreeze_from: "all"
+  optimizer: "adam"
+  weight_decay: 1.0e-4
+  scheduler: "cosine_annealing"
+  dropout: 0.3
+
+# ── Model (Day 5+ — defaults) ───────────────────────────────
+model:
+  primary: "efficientnet_b0"
+  comparison: "resnet50"
+  pretrained: true
+
+# ── Augmentation (Day 3+ — defaults, not yet tested) ────────
+augmentation:
+  horizontal_flip_p: 0.5
+  vertical_flip_p: 0.5
+  rotate90_p: 0.5
+  shift_limit: 0.1
+  scale_limit: 0.15
+  rotate_limit: 30
+  shift_scale_rotate_p: 0.5
+  brightness_limit: 0.2
+  contrast_limit: 0.2
+  brightness_contrast_p: 0.5
+  saturation_limit: 0.2
+  hue_limit: 0.1
+
+# ── Class Imbalance (Day 6+ — defaults) ─────────────────────
+imbalance:
+  strategy: "weighted_cross_entropy"  # Options: standard, weighted_cross_entropy, weighted_sampler
+
+# ── Inference ────────────────────────────────────────────────
+inference:
+  max_time_seconds: 3.0

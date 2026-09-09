@@ -1,0 +1,89 @@
+{
+  "dataset_name": "HAM10000",
+  "inspection_timestamp": "2026-09-02T02:29:14.782379",
+  "metadata_csv_path": "C:\\Users\\pchar\\OneDrive\\Desktop\\MediScan Project\\data\\raw\\HAM10000_metadata.csv",
+  "image_directories": [
+    "C:\\Users\\pchar\\OneDrive\\Desktop\\MediScan Project\\data\\raw\\HAM10000_images_part_1",
+    "C:\\Users\\pchar\\OneDrive\\Desktop\\MediScan Project\\data\\raw\\HAM10000_images_part_2"
+  ],
+  "metadata_row_count": 10015,
+  "image_count": 10015,
+  "inspected_image_count": 10015,
+  "class_count": 7,
+  "class_labels": [
+    "akiec",
+    "bcc",
+    "bkl",
+    "df",
+    "mel",
+    "nv",
+    "vasc"
+  ],
+  "class_distribution": {
+    "nv": 6705,
+    "mel": 1113,
+    "bkl": 1099,
+    "bcc": 514,
+    "akiec": 327,
+    "vasc": 142,
+    "df": 115
+  },
+  "class_percentages": {
+    "nv": 66.95,
+    "mel": 11.11,
+    "bkl": 10.97,
+    "bcc": 5.13,
+    "akiec": 3.27,
+    "vasc": 1.42,
+    "df": 1.15
+  },
+  "unique_lesions": 7470,
+  "images_per_lesion_statistics": {
+    "mean": 1.34,
+    "median": 1.0,
+    "min": 1,
+    "max": 6,
+    "std": 0.63
+  },
+  "multi_image_lesions": 1956,
+  "single_image_lesions": 5514,
+  "image_formats": {
+    "JPEG": 10015
+  },
+  "image_modes": {
+    "RGB": 10015
+  },
+  "sampled_dimensions": {
+    "600x450": 10015
+  },
+  "corrupted_image_count": 0,
+  "corrupted_images": [],
+  "missing_image_count": 0,
+  "orphan_image_count": 0,
+  "readable_images": 10015,
+  "duplicate_image_id_count": "checked in metadata analysis",
+  "missing_metadata_summary": {
+    "lesion_id": 0,
+    "image_id": 0,
+    "dx": 0,
+    "dx_type": 0,
+    "age": 57,
+    "sex": 0,
+    "localization": 0
+  },
+  "metadata_columns": [
+    "lesion_id",
+    "image_id",
+    "dx",
+    "dx_type",
+    "age",
+    "sex",
+    "localization"
+  ],
+  "leakage_considerations": "There are 1956 lesions with multiple images. The train/val/test split MUST be performed at the lesion_id level (not image_id level) to prevent data leakage.",
+  "notes": [
+    "Class distribution is heavily imbalanced \u2014 'nv' dominates.",
+    "Train/val/test split MUST use lesion_id grouping to prevent data leakage.",
+    "This is an educational project \u2014 not for clinical diagnosis."
+  ]
+}
