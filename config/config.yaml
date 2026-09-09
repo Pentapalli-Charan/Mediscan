@@ -98,6 +98,14 @@ augmentation:
   saturation_limit: 0.2
   hue_limit: 0.1
 
+# ── DataLoader (Day 4+) ──────────────────────────────────────
+dataloader:
+  batch_size: 32
+  num_workers: 2          # Safe default for Windows + Colab T4
+  pin_memory: true        # Enables faster host-to-GPU transfer
+  drop_last: false        # Keep partial final batches for eval accuracy
+  persistent_workers: false  # Avoids Windows multiprocessing issues
+
 # ── Class Imbalance (Day 6+ — defaults) ─────────────────────
 imbalance:
   strategy: "weighted_cross_entropy"  # Options: standard, weighted_cross_entropy, weighted_sampler
