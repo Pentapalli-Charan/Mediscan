@@ -1,0 +1,27 @@
+{
+  "success": true,
+  "epochs_configured": 15,
+  "epochs_completed": 15,
+  "early_stopped": false,
+  "best_epoch": 14,
+  "best_val_loss": 0.6422,
+  "best_val_accuracy": 0.7738,
+  "final_train_loss": 0.6398,
+  "final_train_acc": 0.766,
+  "final_val_loss": 0.6495,
+  "final_val_acc": 0.7765,
+  "total_duration_seconds": 3724.62,
+  "device": "cpu",
+  "checkpoint_path": "C:\\Users\\pchar\\OneDrive\\Desktop\\MediScan Project\\models\\checkpoints\\efficientnet_b0_best.pth",
+  "history_csv_path": "C:\\Users\\pchar\\OneDrive\\Desktop\\MediScan Project\\reports\\data\\day6_training_history.csv",
+  "loss_curve_path": "C:\\Users\\pchar\\OneDrive\\Desktop\\MediScan Project\\reports\\figures\\day6_loss_curve.png",
+  "accuracy_curve_path": "C:\\Users\\pchar\\OneDrive\\Desktop\\MediScan Project\\reports\\figures\\day6_accuracy_curve.png",
+  "sanity_check": {
+    "success": true,
+    "loss": 1.9491828680038452,
+    "backbone_has_no_grad": true,
+    "classifier_grads_exist": true,
+    "classifier_changed": true,
+    "backbone_unchanged": true
+  }
+}
