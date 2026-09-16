@@ -206,9 +206,18 @@ def build_model(
             dropout=dropout,
             weights_name=weights_name,
         )
+    elif architecture == "resnet50":
+        from src.models.resnet50 import get_resnet50
+        return get_resnet50(
+            num_classes=num_classes,
+            pretrained=pretrained,
+            freeze_backbone_weights=freeze_bb,
+            dropout=dropout,
+            weights_name=weights_name,
+        )
     else:
         raise ValueError(
-            f"Unsupported architecture '{architecture}'. Currently only 'efficientnet_b0' is supported for Day 5."
+            f"Unsupported architecture '{architecture}'. Currently supported: 'efficientnet_b0', 'resnet50'."
         )
 
 

@@ -13,6 +13,10 @@ from src.models.efficientnet import (
     save_initialization_checkpoint,
     unfreeze_backbone,
 )
+from src.models.resnet50 import (
+    get_resnet50,
+    get_resnet50_summary,
+)
 
 __all__ = [
     "CLASS_NAMES",
@@ -24,4 +28,6 @@ __all__ = [
     "get_model_summary",
     "save_initialization_checkpoint",
     "unfreeze_backbone",
+    "get_resnet50",
+    "get_resnet50_summary",
 ]

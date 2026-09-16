@@ -1,0 +1,13 @@
+category_label,image_id,true_class,predicted_class,confidence,target_class,artifact_file
+Correct Melanoma,ISIC_0033470,mel,mel,0.9206949472427368,mel,mel_correct_ISIC_0033470.png
+Melanoma Missed as Nevus (Target: nv),ISIC_0032653,mel,nv,0.9886242151260376,nv,mel_to_nv_predtarget_ISIC_0032653.png
+Melanoma Missed as Nevus (Target: mel),ISIC_0032653,mel,nv,0.9886242151260376,mel,mel_to_nv_truetarget_ISIC_0032653.png
+Correct Basal Cell Carcinoma,ISIC_0026213,bcc,bcc,0.9794799089431764,bcc,bcc_correct_ISIC_0026213.png
+BCC Missed as Nevus,ISIC_0027609,bcc,nv,0.9022639989852904,nv,bcc_to_nv_ISIC_0027609.png
+Correct Actinic Keratoses,ISIC_0029781,akiec,akiec,0.933260440826416,akiec,akiec_correct_ISIC_0029781.png
+AKIEC Missed as Nevus,ISIC_0033536,akiec,nv,0.8907879590988159,nv,akiec_to_nv_ISIC_0033536.png
+Correct Melanocytic Nevus,ISIC_0024438,nv,nv,0.9999663829803468,nv,nv_correct_ISIC_0024438.png
+Nevus Overcalled as Melanoma,ISIC_0027379,nv,mel,0.8349569439888,mel,nv_to_mel_ISIC_0027379.png
+Rare Class: Correct Dermatofibroma,ISIC_0030579,df,df,0.9691855311393738,df,df_correct_ISIC_0030579.png
+Rare Class: Correct Vascular Lesion,ISIC_0031201,vasc,vasc,0.9995266199111938,vasc,vasc_correct_ISIC_0031201.png
+High-Confidence Error: BKL to Nevus,ISIC_0025804,bkl,nv,0.988625168800354,nv,high_conf_bkl_to_nv_ISIC_0025804.png
