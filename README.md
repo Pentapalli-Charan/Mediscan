@@ -43,21 +43,21 @@ MediScan classifies dermatoscopic skin lesion images into diagnostic categories 
 
 | Milestone | Status |
 |---|---|
-| Day 1: Project Setup & EDA | 🔄 In Progress |
-| Day 2: Data Preprocessing | ⬜ Not Started |
-| Day 3: Data Augmentation | ⬜ Not Started |
-| Day 4: DataLoader Setup | ⬜ Not Started |
-| Day 5: Base Model Setup | ⬜ Not Started |
-| Day 6: Training Loop | ⬜ Not Started |
-| Day 7: Training Execution | ⬜ Not Started |
-| Day 8: Hyperparameter Tuning | ⬜ Not Started |
-| Day 9: Model Evaluation | ⬜ Not Started |
-| Day 10: Grad-CAM | ⬜ Not Started |
-| Day 11: Model Comparison | ⬜ Not Started |
-| Day 12: Web Interface | ⬜ Not Started |
-| Day 13: Experiment Tracking | ⬜ Not Started |
-| Day 14: Edge-Case Analysis | ⬜ Not Started |
-| Day 15: Finalization & Deployment | ⬜ Not Started |
+| Day 1: Project Setup & EDA | ✅ Completed |
+| Day 2: Data Preprocessing | ✅ Completed |
+| Day 3: Data Augmentation | ✅ Completed |
+| Day 4: DataLoader Setup | ✅ Completed |
+| Day 5: Base Model Setup | ✅ Completed |
+| Day 6: Training Loop | ✅ Completed |
+| Day 7: Training Execution | ✅ Completed |
+| Day 8: Hyperparameter Tuning | ✅ Completed |
+| Day 9: Model Evaluation | ✅ Completed |
+| Day 10: Grad-CAM | ✅ Completed |
+| Day 11: Model Comparison | ✅ Completed |
+| Day 12: Web Interface | ✅ Completed |
+| Day 13: Experiment Tracking | ✅ Completed |
+| Day 14: Edge-Case Analysis | ⬜ Up Next |
+| Day 15: Finalization & Deployment | ⬜ Pending |
 
 ## Project Roadmap
 
@@ -146,10 +146,56 @@ MediScan Project/
 ├── scripts/                     # Runnable scripts
 ├── notebooks/                   # Jupyter notebooks
 ├── models/checkpoints/          # Saved model weights (gitignored)
-├── reports/                     # Generated reports & figures
 ├── app/                         # Streamlit web app (Day 12+)
-├── mlruns/                      # MLflow tracking data (gitignored)
-└── tests/                       # Unit tests
+├── mlruns/                      # Local MLflow tracking store (Day 13+)
+└── tests/                       # Unit & regression tests
+```
+
+## MLflow Experiment Tracking (Day 13)
+
+MediScan incorporates **MLflow** for local, reproducible, offline experiment tracking, parameter logging, epoch metric curves, and model artifact governance.
+
+### Tracking Configuration
+- **Tracking Location:** Local file-based store at `mlruns/`
+- **Experiment Name:** `MediScan`
+- **Dependency:** `mlflow>=3.16.0` (100% offline, no remote server or internet connection required)
+
+### Tracked Runs & Scientific Integrity
+All runs recorded in MLflow reflect actual executed runs from the project:
+1. **`EfficientNet-B0-Baseline` (Day 6 / Day 8 Exp 0)**:
+   - Primary deployment model. 15 epochs, Adam optimizer (LR=1e-3, Dropout=0.2).
+   - Best validation loss: `0.6422` (Epoch 14), validation accuracy: `77.38%`, peak validation accuracy: `77.65%`.
+   - Contains locked Day 9 held-out evaluation metrics tagged with provenance.
+2. **`EfficientNet-B0-LR-5e-4` (Day 8 Exp 1)**:
+   - Evaluated lower learning rate on EfficientNet-B0. 5 epochs.
+   - Best validation loss: `0.7283`, validation accuracy: `75.21%`.
+3. **`ResNet50-Benchmark` (Day 11 Benchmark)**:
+   - Controlled architecture comparison (23.52M parameters). 1-epoch CPU budget benchmark.
+   - Validation loss: `0.7646`, validation accuracy: `72.52%`, epoch duration: `5265.4s` (20.3× slower than EfficientNet-B0).
+
+> **Scientific Fairness & Test Isolation Protocol:**
+> - **Test-set metrics were not used for hyperparameter selection.**
+> - Day 9 held-out test metrics (`Top-1: 75.79%`, `Top-2: 89.55%`, `Macro-F1: 0.5157`, `Weighted-F1: 0.7448`) are explicitly tagged as `historical/final held-out evaluation` and remain permanently locked.
+> - Planned Day 8 experiments 2, 3, and 4 were skipped due to CPU compute constraints and are **not** fabricated as MLflow runs.
+
+### Tracked Metadata
+- **Parameters:** Architecture, pretrained weights, class count (7), classification head, dropout, frozen/unfrozen status, dataset split counts (train: 6982, val: 1521, test: 1512), split grouping column (`lesion_id`), input resolution ($224 \times 224$), normalization parameters, data augmentation pipeline, optimizer, learning rate, batch size, scheduler, early stopping, random seed (42), compute device, software versions (Python, PyTorch, torchvision), and git commit hash.
+- **Metrics:** Epoch-by-epoch `train_loss`, `train_accuracy`, `val_loss`, `val_accuracy`, `learning_rate`, `epoch_time_seconds`, and overall best validation summary metrics.
+- **Artifacts:** Epoch history CSVs, configuration YAML snapshots, Day 9 classification reports, and training comparison curves.
+- **Canonical Model Checkpoint:** The official production model checkpoint remains locked at `models/checkpoints/efficientnet_b0_best.pth` (MD5: `7c1c6fcbe02e93f0ff8b4a20f62e29e3`).
+
+### Launching the MLflow UI Locally
+To inspect the experiments, comparison tables, and metric curves in your browser:
+
+```bash
+# Launch local MLflow UI server (binds locally, zero internet required)
+mlflow ui --backend-store-uri mlruns --port 5000
+```
+Open `http://localhost:5000` in your web browser.
+
+To synchronize or refresh the MLflow store via script:
+```bash
+python scripts/sync_day13_mlflow.py
 ```
 
 ## Ethical Considerations

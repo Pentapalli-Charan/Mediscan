@@ -205,6 +205,30 @@ def render_sidebar(device: torch.device) -> Dict[str, Any]:
                 )
                 st.write("")
 
+        # Model Development & Experiment Benchmarks
+        with st.expander("📊 Model Development & Benchmarks"):
+            try:
+                from src.training.mlflow_tracker import get_experiment_summary_df
+                exp_df = get_experiment_summary_df()
+                if not exp_df.empty:
+                    display_cols = [c for c in ["Run Name", "Architecture", "Best Val Loss", "Val Acc (%)", "Test Top-1 Acc (%)"] if c in exp_df.columns]
+                    st.dataframe(
+                        exp_df[display_cols],
+                        hide_index=True,
+                    )
+                else:
+                    st.markdown(
+                        "- **EfficientNet-B0 (Baseline):** Val Loss `0.6422`, Val Acc `77.38%`, Test Top-1 `75.79%`  \n"
+                        "- **ResNet-50 (Benchmark):** Val Loss `0.7646`, Val Acc `72.52%`  \n"
+                        "- **EfficientNet-B0 (LR 5e-4):** Val Loss `0.7283`, Val Acc `75.21%`"
+                    )
+            except Exception:
+                st.markdown(
+                    "- **EfficientNet-B0 (Baseline):** Val Loss `0.6422`, Val Acc `77.38%`, Test Top-1 `75.79%`  \n"
+                    "- **ResNet-50 (Benchmark):** Val Loss `0.7646`, Val Acc `72.52%`  \n"
+                    "- **EfficientNet-B0 (LR 5e-4):** Val Loss `0.7283`, Val Acc `75.21%`"
+                )
+
     return {
         "input_mode": input_mode,
         "alpha": gradcam_alpha,
