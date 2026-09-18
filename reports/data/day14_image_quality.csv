@@ -1,0 +1,4 @@
+proxy,correct_median,correct_mean,incorrect_median,incorrect_mean
+Brightness (Mean Intensity),156.04,156.61,158.15,157.85
+Contrast (Intensity Std),24.99,27.54,25.86,28.16
+Sharpness Proxy (Laplacian Var),43.88,73.11,58.72,112.25

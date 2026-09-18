@@ -1,0 +1,18 @@
+category,group,sample_count,sample_pct,correct_count,accuracy
+Sex,female,702,46.43,569,0.8105
+Sex,male,798,52.78,569,0.713
+Sex,unknown,12,0.79,8,0.6667
+Age Group,<40,282,18.65,243,0.8617
+Age Group,40-59,682,45.11,567,0.8314
+Age Group,>=60,539,35.65,329,0.6104
+Age Group,unknown,9,0.6,7,0.7778
+Localization (Top),lower extremity,322,21.3,261,0.8106
+Localization (Top),back,315,20.83,228,0.7238
+Localization (Top),trunk,205,13.56,187,0.9122
+Localization (Top),upper extremity,176,11.64,130,0.7386
+Localization (Top),abdomen,165,10.91,133,0.8061
+Localization (Top),face,89,5.89,40,0.4494
+Localization (Top),foot,55,3.64,41,0.7455
+Localization (Top),chest,51,3.37,35,0.6863
+Localization (Top),unknown,44,2.91,38,0.8636
+Localization (Top),neck,32,2.12,21,0.6562

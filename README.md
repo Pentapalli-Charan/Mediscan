@@ -56,8 +56,8 @@ MediScan classifies dermatoscopic skin lesion images into diagnostic categories 
 | Day 11: Model Comparison | ✅ Completed |
 | Day 12: Web Interface | ✅ Completed |
 | Day 13: Experiment Tracking | ✅ Completed |
-| Day 14: Edge-Case Analysis | ⬜ Up Next |
-| Day 15: Finalization & Deployment | ⬜ Pending |
+| Day 14: Edge-Case Analysis | ✅ Completed |
+| Day 15: Finalization & Deployment | ⬜ Up Next |
 
 ## Project Roadmap
 
