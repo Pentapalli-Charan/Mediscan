@@ -7,9 +7,9 @@ with Gradient-weighted Class Activation Mapping (Grad-CAM) visual explainability
 Features:
 - Live image upload (JPG, JPEG, PNG) or selection from verified HAM10000 dataset samples.
 - Preprocessing pipeline matching exact Day 2-4 test specifications (224x224, ImageNet normalized).
-- 7-class probability prediction with confidence scoring and clinical risk stratifications.
+- 7-class probability prediction with confidence scoring and HAM10000 category reference.
 - Interactive Grad-CAM visualization targeting model.features[8] with adjustable overlay alpha.
-- Comprehensive dermatology class guide and clinical diagnostic disclaimers.
+- Comprehensive HAM10000 class guide and research/educational disclaimers.
 """
 
 import io
@@ -43,46 +43,46 @@ from app.utils import (
     validate_and_load_image,
 )
 
-# Histological category mapping for HAM10000 classes (Educational & Research reference)
+# HAM10000 category mapping for 7-class reference (Educational & Research use only)
 CLINICAL_RISK_LEVELS: Dict[str, Dict[str, str]] = {
     "mel": {
-        "level": "Malignant Neoplasm (Melanoma)",
+        "level": "Melanoma (MEL)",
         "badge_color": "#ef4444",
         "badge_bg": "#fee2e2",
         "urgency": "Educational/Research Category: Malignant Neoplasm",
     },
     "bcc": {
-        "level": "Malignant Neoplasm (Basal Cell Carcinoma)",
+        "level": "Basal Cell Carcinoma (BCC)",
         "badge_color": "#f97316",
         "badge_bg": "#ffedd5",
         "urgency": "Educational/Research Category: Malignant Neoplasm",
     },
     "akiec": {
-        "level": "Pre-Malignant (Actinic Keratoses / Bowen's Disease)",
+        "level": "Actinic Keratoses / Intraepithelial Carcinoma (AKIEC)",
         "badge_color": "#eab308",
         "badge_bg": "#fef9c3",
         "urgency": "Educational/Research Category: Pre-Malignant Lesion",
     },
     "bkl": {
-        "level": "Benign Lesion (Benign Keratosis-like Lesions)",
+        "level": "Benign Keratosis-like Lesions (BKL)",
         "badge_color": "#10b981",
         "badge_bg": "#d1fae5",
         "urgency": "Educational/Research Category: Benign Keratosis",
     },
     "df": {
-        "level": "Benign Lesion (Dermatofibroma)",
+        "level": "Dermatofibroma (DF)",
         "badge_color": "#10b981",
         "badge_bg": "#d1fae5",
         "urgency": "Educational/Research Category: Benign Fibroma",
     },
     "nv": {
-        "level": "Benign Lesion (Melanocytic Nevi / Mole)",
+        "level": "Melanocytic Nevi (NV)",
         "badge_color": "#10b981",
         "badge_bg": "#d1fae5",
         "urgency": "Educational/Research Category: Benign Nevus",
     },
     "vasc": {
-        "level": "Benign Lesion (Vascular Lesions)",
+        "level": "Vascular Lesions (VASC)",
         "badge_color": "#10b981",
         "badge_bg": "#d1fae5",
         "urgency": "Educational/Research Category: Benign Vascular Lesion",
@@ -193,8 +193,8 @@ def render_sidebar(device: torch.device) -> Dict[str, Any]:
         )
         st.markdown("---")
 
-        # Diagnostic Classes Reference Guide
-        with st.expander("📚 HAM10000 7 Diagnostic Classes"):
+        # HAM10000 Classification Categories Reference Guide
+        with st.expander("📚 HAM10000 7 Classification Categories"):
             for code in CLASS_NAMES:
                 risk = CLINICAL_RISK_LEVELS[code]
                 st.markdown(
@@ -346,7 +346,7 @@ def main() -> None:
             st.error(f"Inference execution failed: {e}")
             return
 
-    # 4. Diagnostic Prediction Dashboard
+    # 4. Model Prediction Dashboard
     pred_code = prediction_res["predicted_class"]
     confidence = prediction_res["confidence"]
     confidence_pct = prediction_res["confidence_pct"]
@@ -375,7 +375,7 @@ def main() -> None:
                     Model Confidence: <span style="color: {risk_info['badge_color']};">{confidence_pct}%</span>
                 </div>
                 <p style="margin: 0; font-size: 0.88rem; color: #475569;">
-                    <strong>Histological Classification:</strong> {risk_info['level']}
+                    <strong>Predicted Category:</strong> {risk_info['level']}
                 </p>
                 <p style="margin: 0.35rem 0 0 0; font-size: 0.78rem; color: #64748b;">
                     <em>Note: Model confidence represents normalized softmax probability and does not establish clinical certainty.</em>
@@ -389,13 +389,13 @@ def main() -> None:
         st.markdown("##### 7-Class Probability Distribution")
         probs_df = pd.DataFrame(
             prediction_res["sorted_probabilities"],
-            columns=["Diagnosis Code", "Probability"],
+            columns=["Class Code", "Probability"],
         )
-        probs_df["Class Name"] = probs_df["Diagnosis Code"].map(CLASS_DESCRIPTIONS)
+        probs_df["Class Name"] = probs_df["Class Code"].map(CLASS_DESCRIPTIONS)
         probs_df["Confidence (%)"] = (probs_df["Probability"] * 100).round(2)
 
         for _, row in probs_df.iterrows():
-            code_str = row["Diagnosis Code"]
+            code_str = row["Class Code"]
             p_val = float(row["Probability"])
             p_pct = row["Confidence (%)"]
             desc_str = row["Class Name"]
@@ -417,8 +417,8 @@ def main() -> None:
     st.subheader("🔍 Explainable AI — Grad-CAM Explanation Overlay")
     st.markdown(
         """
-        **Gradient-weighted Class Activation Mapping (Grad-CAM)** highlights visual attention regions in the 
-        final convolutional layer (**`model.features[8]`**) of EfficientNet-B0 that contributed most to the selected class prediction.
+        **Gradient-weighted Class Activation Mapping (Grad-CAM)** highlights image regions with stronger activation 
+        in the final convolutional layer (**`model.features[8]`**) of EfficientNet-B0 associated with the selected model output.
         """
     )
 
@@ -475,8 +475,8 @@ def main() -> None:
         st.markdown(
             """
             > **How to interpret this visual explanation overlay:**
-            > - **Red & Yellow Regions:** Visual patterns that most strongly drove the model's classification decision (e.g. pigment network asymmetries, atypical dots/globules, focal pigmentation).
-            > - **Blue & Cyan Regions:** Background skin, illumination artifacts, or lesion zones with negligible influence on this diagnostic category.
+            > - **Red & Yellow Regions:** Image regions with stronger Grad-CAM activation for the selected class.
+            > - **Blue & Cyan Regions:** Image regions with lower Grad-CAM activation for the selected class.
             """
         )
 

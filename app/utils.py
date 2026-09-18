@@ -160,7 +160,7 @@ def load_mediscan_model(
 try:
     import streamlit as st
 
-    @st.cache_resource(show_spinner="Loading MediScan Diagnostic Model...")
+    @st.cache_resource(show_spinner="Loading MediScan Model...")
     def _cached_load_mediscan_model(checkpoint_path_str: str, config_path_str: str, device_str: str):
         dev = torch.device(device_str)
         return load_mediscan_model(

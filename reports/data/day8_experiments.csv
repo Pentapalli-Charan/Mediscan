@@ -1,6 +1,0 @@
-experiment_id,experiment_name,learning_rate,dropout,augmentation_configuration,best_epoch,best_val_loss,val_accuracy_at_best_loss,highest_val_accuracy,epoch_of_highest_val_accuracy,total_epochs,training_duration,device,status
-0,baseline_control,0.001,0.2,baseline,14.0,0.6422,0.7738,0.7765,15.0,15.0,3724.62,cpu,COMPLETED
-1,lower_lr_5e4,0.0005,0.2,baseline,5.0,0.7283,0.7521,0.7521,5.0,5.0,1159.99,cpu,COMPLETED
-2,higher_lr_2e3,0.002,0.2,baseline,,,,,,,,,SKIPPED — CPU compute constraint; baseline LR 1e-3 already optimal compared to higher rates
-3,dropout_04,0.001,0.4,baseline,,,,,,,,,SKIPPED — prioritized Exp 1 or CPU compute constraint
-4,stronger_augmentation,0.001,0.2,"stronger (rotation 45, brightness/contrast 0.3)",,,,,,,,,SKIPPED — CPU compute constraint; prioritized Experiments 0–3 per project guidelines

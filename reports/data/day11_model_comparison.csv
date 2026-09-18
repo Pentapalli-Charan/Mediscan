@@ -1,4 +1,0 @@
-model,val_loss,val_accuracy,train_loss,train_accuracy,total_parameters,trainable_parameters,frozen_parameters,epoch_duration_seconds,device,notes
-efficientnet_b0 (Epoch 1 matched),0.8379,0.7232,0.9528,0.6913,4016515,8967,4007548,259.35,cpu,Primary baseline control
-resnet50 (Epoch 1 matched),0.7646,0.7252,0.9035,0.6922,23522375,14343,23508032,5265.4,cpu,Day 11 comparison architecture (CPU benchmarked)
-efficientnet_b0 (Full 15-Epoch),0.6422,0.7738,0.6121,0.7745,4016515,8967,4007548,248.31,cpu,Full baseline control reference (Best Epoch 14)

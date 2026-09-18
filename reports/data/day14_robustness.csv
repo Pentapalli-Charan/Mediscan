@@ -1,8 +1,0 @@
-probe,sample_count,accuracy,prediction_consistency,class_flip_rate,mean_confidence,mean_confidence_delta
-baseline,150,0.74,1.0,0.0,0.7499,0.0
-mild_brightness,150,0.76,0.8533,0.1467,0.7339,-0.016
-mild_contrast,150,0.7533,0.8933,0.1067,0.7364,-0.0135
-gaussian_blur,150,0.7067,0.76,0.24,0.7142,-0.0356
-jpeg_compression,150,0.74,0.84,0.16,0.7419,-0.008
-crop_resize,150,0.7667,0.8267,0.1733,0.7529,0.003
-mild_color_shift,150,0.7267,0.86,0.14,0.754,0.0042
