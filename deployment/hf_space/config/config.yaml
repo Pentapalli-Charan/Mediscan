@@ -1,0 +1,115 @@
+# ═══════════════════════════════════════════════════════════════
+# MediScan — Centralized Configuration
+# ═══════════════════════════════════════════════════════════════
+
+# ── Project ───────────────────────────────────────────────────
+project:
+  name: "MediScan"
+  description: "Medical Image Classification System"
+  version: "0.1.0"
+
+# ── Reproducibility ──────────────────────────────────────────
+seed: 42
+
+# ── Dataset ──────────────────────────────────────────────────
+dataset:
+  name: "HAM10000"
+  source: "kaggle"
+  kaggle_id: "kmader/skin-cancer-mnist-ham10000"
+
+# ── Paths (relative to project root) ────────────────────────
+paths:
+  data_raw: "data/raw"
+  data_processed: "data/processed"
+  data_metadata: "data/metadata"
+  models: "models/checkpoints"
+  reports: "reports"
+  figures: "reports/figures"
+  gradcam_examples: "reports/gradcam_examples"
+  mlruns: "mlruns"
+
+# ── Image Settings ───────────────────────────────────────────
+image:
+  size: 224
+  channels: 3
+  # ImageNet normalization (standard for ImageNet-pretrained models)
+  normalize_mean: [0.485, 0.456, 0.406]
+  normalize_std: [0.229, 0.224, 0.225]
+
+# ── Data Split ───────────────────────────────────────────────
+split:
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+  # Split by lesion_id to prevent data leakage
+  group_column: "lesion_id"
+  stratify_column: "dx"
+
+# ── Class Labels (verified from dataset in Day 1 EDA) ───────
+# Will be confirmed after dataset inspection
+classes:
+  labels: [akiec, bcc, bkl, df, mel, nv, vasc]
+  num_classes: 7
+
+# ── Training (Day 6 — Base Transfer Learning Baseline) ─────
+training:
+  epochs: 15
+  batch_size: 32
+  learning_rate: 1.0e-3
+  optimizer: "adam"
+  weight_decay: 0.0
+  scheduler:
+    type: "reduce_on_plateau"
+    mode: "min"
+    factor: 0.5
+    patience: 2
+    min_lr: 1.0e-6
+  early_stopping:
+    enabled: true
+    patience: 3
+    min_delta: 0.001
+  checkpoint:
+    dir: "models/checkpoints"
+    filename: "efficientnet_b0_best.pth"
+
+# ── Model (Day 5+ — Base Model) ─────────────────────────────
+model:
+  architecture: "efficientnet_b0"
+  primary: "efficientnet_b0"
+  comparison: "resnet50"
+  pretrained: true
+  weights: "IMAGENET1K_V1"
+  num_classes: 7
+  freeze_backbone: true
+  dropout: 0.2
+
+# ── Augmentation (Day 3+ — defaults, not yet tested) ────────
+augmentation:
+  horizontal_flip_p: 0.5
+  vertical_flip_p: 0.5
+  rotate90_p: 0.5
+  shift_limit: 0.1
+  scale_limit: 0.15
+  rotate_limit: 30
+  shift_scale_rotate_p: 0.5
+  brightness_limit: 0.2
+  contrast_limit: 0.2
+  brightness_contrast_p: 0.5
+  saturation_limit: 0.2
+  hue_limit: 0.1
+
+# ── DataLoader (Day 4+) ──────────────────────────────────────
+dataloader:
+  batch_size: 32
+  num_workers: 2          # Safe default for Windows + Colab T4
+  pin_memory: true        # Enables faster host-to-GPU transfer
+  drop_last: false        # Keep partial final batches for eval accuracy
+  persistent_workers: false  # Avoids Windows multiprocessing issues
+
+# ── Class Imbalance (Day 6+ — defaults) ─────────────────────
+imbalance:
+  strategy: "weighted_cross_entropy"  # Options: standard, weighted_cross_entropy, weighted_sampler
+
+# ── Inference ────────────────────────────────────────────────
+inference:
+  max_time_seconds: 3.0
